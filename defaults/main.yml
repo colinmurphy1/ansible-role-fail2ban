@@ -1,0 +1,35 @@
+---
+# defaults file for cmurphy.fail2ban
+
+# IP addresses to ignore
+fail2ban_ignore_ips: ['127.0.0.1/8']
+
+# Default ban time in seconds
+fail2ban_default_ban_time: 600
+
+# Default find time
+fail2ban_default_find_time: 600
+
+# Maximum retries before being banned in the find time
+fail2ban_default_max_tries: 3
+
+# Default ban action
+fail2ban_default_ban_action: iptables-multiport
+
+# Default backend, on most (Linux) systems this will be systemd
+fail2ban_default_backend: systemd
+
+# Default service status
+fail2ban_service_state: started   # Ensure the service is started
+fail2ban_service_enabled: true    # Should the service start on boot
+
+# Configured jails
+fail2ban_jails:
+  - name: sshd
+    enabled: true
+
+# Custom filters
+fail2ban_filters: []
+
+# Custom actions
+fail2ban_actions: []

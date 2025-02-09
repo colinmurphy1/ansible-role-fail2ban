@@ -1,0 +1,21 @@
+{{ ansible_managed | comment }}
+
+[INCLUDES]
+before = common.conf
+
+[Definition]
+{% if item.daemon is defined and item.daemon|length %}
+_daemon = {{ item.daemon }}
+{% endif %}
+{% if item.failregex is defined and item.failregex|length %}
+failregex = {{ item.failregex | join('\n') | indent(width=12, first=False) }}
+{% endif %}
+{% if item.ignoreregex is defined and item.ignoreregex|length %}
+ignoreregex = {{ item.ignoreregex | join('\n') | indent(width=14, first=False) }}
+{% endif %}
+{% if item.datepattern is defined and item.datepattern|length %}
+datepattern = {{ item.datepattern }}
+{% endif %}
+{% if item.journalmatch is defined and item.journalmatch|length %}
+journalmatch = {{ item.journalmatch }}
+{% endif %}

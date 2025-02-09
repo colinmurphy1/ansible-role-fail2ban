@@ -1,0 +1,49 @@
+---
+# tasks file for cmurphy.fail2ban
+
+- name: Install fail2ban
+  ansible.builtin.package:
+    name: fail2ban
+    state: present
+
+- name: Remove Debian default actions file
+  ansible.builtin.file:
+    path: /etc/fail2ban/jail.d/defaults-debian.conf
+    state: absent
+  when: ansible_os_family == "Debian"
+  notify: Restart fail2ban
+
+- name: Configure default jail settings
+  ansible.builtin.template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    mode: '0644'
+    owner: root
+    group: root
+  notify: Restart fail2ban
+
+- name: Generate jail configurations
+  ansible.builtin.template:
+    src: jail.conf.j2
+    dest: "/etc/fail2ban/jail.d/{{ item.name }}.conf"
+    mode: '0644'
+    owner: root
+    group: root
+  with_items: "{{ fail2ban_jails }}"
+  notify: Restart fail2ban
+
+- name: Generate filter configurations
+  ansible.builtin.template:
+    src: filter.conf.j2
+    dest: "/etc/fail2ban/filter.d/{{ item.name }}.conf"
+    mode: '0644'
+    owner: root
+    group: root
+  with_items: "{{ fail2ban_filters }}"
+  notify: Restart fail2ban
+
+- name: Fail2ban service
+  ansible.builtin.service:
+    name: fail2ban
+    state: "{{ fail2ban_service_state }}"
+    enabled: "{{ fail2ban_service_enabled }}"

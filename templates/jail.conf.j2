@@ -1,0 +1,28 @@
+{{ ansible_managed | comment }}
+
+[{{ item.name }}]
+enabled = {{ item.enabled | lower | default(true) }}
+{% if item.ports is defined and item.ports|length %}
+port = {{ item.ports | join(',') }}
+{% endif %}
+{% if item.filter is defined and item.filter|length %}
+filter = {{ item.filter }}
+{% endif %}
+{% if item.logpath is defined and item.logpath|length %}
+logpath = {{ item.logpath | join('\n') | indent(width=10, first=False) }}
+{% endif %}
+{% if item.maxretry is defined %}
+maxretry = {{ item.maxretry }}
+{% endif %}
+{% if item.findtime is defined %}
+findtime = {{ item.findtime }}
+{% endif %}
+{% if item.bantime is defined %}
+bantime = {{ item.bantime }}
+{% endif %}
+{% if item.banaction is defined and item.banaction|length %}
+banaction = {{ item.banaction }}
+{% endif %}
+{% if item.backend is defined and item.backend|length %}
+backend = {{ item.backend }}
+{% endif %}

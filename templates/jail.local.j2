@@ -1,0 +1,12 @@
+{{ ansible_managed | comment }}
+
+# These are the default jail options for fail2ban. Individual jails configured
+# by this role are located in jail.d
+
+[DEFAULT]
+ignoreip = {{ fail2ban_ignore_ips | join(' ') }}
+bantime = {{ fail2ban_default_ban_time }}
+findtime = {{ fail2ban_default_find_time }}
+maxretry = {{ fail2ban_default_max_tries }}
+banaction = {{ fail2ban_default_ban_action }}
+backend = {{ fail2ban_default_backend }}

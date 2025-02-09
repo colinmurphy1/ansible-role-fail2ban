@@ -1,0 +1,7 @@
+---
+# handlers file for cmurphy.fail2ban
+
+- name: Restart fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: restarted
