@@ -1,7 +1,9 @@
 {{ ansible_managed | comment }}
 
+{% if item.include_common | default(false) %}
 [INCLUDES]
 before = common.conf
+{% endif -%}
 
 [Definition]
 {% if item.daemon is defined and item.daemon|length %}
